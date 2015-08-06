@@ -30,4 +30,18 @@ class WelcomeController extends Controller {
 		return view('credit_policy', ['site_name'=>Config::where('key', 'site_name')->first()->value, 'credit_policy'=>Config::where('key', 'credit_policy')->first()->value]);
 	}
 	
+	public function admin()
+	{
+		if(!app()->user)
+		{
+			return redirect('login');
+		}
+		
+		return view('admin');
+	}
+
+	public function login()
+	{
+		return view('login');
+	}
 }
