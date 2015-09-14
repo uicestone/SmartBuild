@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta charset="utf-8">
 		<link href='//fonts.useso.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
 
 		<style>
