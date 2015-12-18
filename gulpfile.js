@@ -1,3 +1,29 @@
+function loadLocConf() {
+    try{
+        var locConf = require("./locConf");
+        function _loadLoc(topk,key,loc,conf) {
+            key.forEach(function(k) {
+                if( typeof loc[k] != "object") {
+                    console.log('locConf[%s]:%s',(topk+"."+k).substr(1),loc[k]);
+                    conf[k] = loc[k];
+                } else {
+                    _loadLoc(topk+"."+k,Object.keys(loc[k]),loc[k],conf[k]);
+                }
+            });
+        }
+        console.log('load locals conf ...');
+        _loadLoc("",Object.keys(locConf),locConf,options);
+    } catch(e){}
+}
+var options = {
+    browserSync: {
+        proxy: 'homestead.app',
+        host: "192.168.10.10"
+    }
+}
+loadLocConf()
+
+
 var elixir = require('laravel-elixir');
 
 /*
@@ -20,7 +46,7 @@ elixir(function(mix) {
     ], 'public/assets/js/libraries.js');
 
     mix.browserify('main.js', 'public/assets/js/app.js');
-
+    mix.browserSync(options.browserSync);
     mix.sass(['common.scss'], 'public/assets/css/common.css');
 
     mix.styles([
