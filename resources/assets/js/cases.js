@@ -11,15 +11,12 @@ class Box extends React.Component {
     render() {
         return (
             <div className="box">
-                <h3>安防系统</h3>
-                <p>
-                    1080P 480TVL<br/>
-                    CMOS  1/4枪式摄像机<br/>
-                    数字摄像机 一体机<br/>
-                    一般亮度 DC驱动<br/>
-                    C 接口 DC12V高速
-                </p>
-                <span className="price">9999元</span>
+                <h3>{this.props.data.name}</h3>
+                <ul>
+                    {this.props.data.descriptions.map((des) => <li>{des}</li> )} 
+
+                </ul>
+                <span className="price">{this.props.data.price}元</span>
             </div>
         )
     }
@@ -32,15 +29,15 @@ class Case extends React.Component {
     render() {
         return (
             <div className="row">
-                <h2>xx楼宇设计方案</h2>
+                <h2>{this.props.data.name}</h2>
                 <div className="scroll">
-                    {_.range(8).map((node, i) => <Box></Box> )}
+                    {this.props.data.systems.map((sy) => <Box data={sy}></Box> )}
                 </div>
                 <div className="board">
                     <h4>描述</h4>
-                    <p className="des">建设xx楼宇项目，包含xx系统、xx系统等</p>
+                    <p className="des">{this.props.data.description}</p>
                     <div className="bottom">
-                        <p className="price">预估价格<br/>9999元</p>
+                        <p className="price">预估价格<br/>{this.props.data.price}元</p>
                         <button className="btn btn-success">编辑</button>
                         <button className="btn btn-success">生成文书</button>
                     </div>
@@ -61,13 +58,13 @@ class Cases extends React.Component {
             let data = Request.getCasesData()
             console.log(data)
             this.setState({
-                data: data
+                cases: data.cases
             })
         }, 300)
     }
     render() {
-        if (!this.state.data) return null
-            
+        if (!this.state.cases) return null
+
         return (
             <div className="page-cases"> 
                 <header className="row-fluid">
@@ -82,7 +79,7 @@ class Cases extends React.Component {
                             </button>
                         </div>
                     </form> 
-                    {_.range(3).map((node, i) => <Case></Case> )}
+                    {this.state.cases.map((cs) => <Case data={cs}></Case> )}
                 </div> 
             </div> 
         )

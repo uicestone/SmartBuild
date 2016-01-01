@@ -119,8 +119,8 @@ class Product extends React.Component {
         }
     }
     handleSumupPrice () {
-        Commu.price = this.props.machinery.reduce(function (sumup, onemach) {
-            return sumup + onemach.products.reduce(function (subSumup, product) {
+        Commu.price = this.props.machinery.reduce((sumup, onemach)=> {
+            return sumup + onemach.products.reduce((subSumup, product)=> {
                 return subSumup + product.price * product.num
             }, 0)
         }, 0)
