@@ -1,10 +1,11 @@
 import React from 'react'
 import { Router, Route, Link, IndexRoute, Redirect } from 'react-router'
 import { createHistory, useBasename } from 'history'
+import jQuery from 'jquery'
 
 // import "../scss/common.scss"
 
-import { Data } from './data'
+import Request from './mod/request'
 import { Search } from './search'
 import { Login } from './login'
 import Reg from './reg'
@@ -79,12 +80,12 @@ class App extends React.Component {
     }
     componentDidMount () {
         // ajax get data
-        setTimeout(function () {
-            window.Data = Data
+        setTimeout(()=> {
+            window.Data = Request.getCreateData()
             this.setState({
                 data: window.Data
             })
-        }.bind(this), 300)
+        }, 300)
     }
     render() {
         if (!this.state.data) return null

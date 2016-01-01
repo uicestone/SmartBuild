@@ -2,6 +2,8 @@ import React from 'react';
 import { Router, Route, Link, Redirect } from 'react-router';
 import _ from 'lodash'
 
+import Request from './mod/request'
+
 class Box extends React.Component {
     constructor () {
         super()
@@ -9,7 +11,7 @@ class Box extends React.Component {
     render() {
         return (
             <div className="box">
-                <h3>p安防系统</h3>
+                <h3>安防系统</h3>
                 <p>
                     1080P 480TVL<br/>
                     CMOS  1/4枪式摄像机<br/>
@@ -17,7 +19,7 @@ class Box extends React.Component {
                     一般亮度 DC驱动<br/>
                     C 接口 DC12V高速
                 </p>
-                <span>9999元</span>
+                <span className="price">9999元</span>
             </div>
         )
     }
@@ -37,8 +39,8 @@ class Case extends React.Component {
                 <div className="board">
                     <h4>描述</h4>
                     <p className="des">建设xx楼宇项目，包含xx系统、xx系统等</p>
-                    <p className="price">预估价格<br/>9999元</p>
-                    <div>
+                    <div className="bottom">
+                        <p className="price">预估价格<br/>9999元</p>
                         <button className="btn btn-success">编辑</button>
                         <button className="btn btn-success">生成文书</button>
                     </div>
@@ -49,10 +51,22 @@ class Case extends React.Component {
 }
 
 class Cases extends React.Component {
-    constructor () {
-        super()
+    constructor (props) {
+        super(props)
+        this.state = {}
+    }
+    componentDidMount () {
+        // ajax get data
+        setTimeout(()=> {
+            let data = Request.getCasesData()
+            console.log(data)
+            this.setState({
+                data: data
+            })
+        }, 300)
     }
     render() {
+        if (!this.state.data) return null
         return (
             <div className="page-cases"> 
                 <header className="row-fluid">

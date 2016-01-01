@@ -28,10 +28,11 @@
     "webpack-dev-middleware": "^1.2.0"
   },
   "dependencies": {
-    "laravel-elixir": "^3.0.0",
     "bootstrap-sass": "^3.0.0",
     "font-awesome": "^4.4.0",
     "history": "^1.11.0",
-    "lodash": "^3.10.1"
+    "laravel-elixir": "^3.0.0",
+    "lodash": "^3.10.1",
+    "mockjs": "^0.1.10"
   }
 }

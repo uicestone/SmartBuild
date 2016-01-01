@@ -1,3 +1,4 @@
+// ** load local config file, overide options
 function loadLocConf() {
     try{
         var locConf = require("./locConf");
@@ -15,12 +16,14 @@ function loadLocConf() {
         _loadLoc("",Object.keys(locConf),locConf,options);
     } catch(e){}
 }
+
 var options = {
     browserSync: {
         proxy: 'homestead.app',
         host: "192.168.10.10"
     }
 }
+
 loadLocConf()
 
 
@@ -40,9 +43,10 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
 
     mix.scripts([
-        '../../../node_modules/react/dist/react.min.js',
-        '../../../node_modules/react-router/umd/ReactRouter.min.js',
-        '../../../node_modules/history/umd/History.min.js'
+        // '../../../node_modules/react/dist/react.min.js',
+        // '../../../node_modules/react-router/umd/ReactRouter.min.js',
+        // '../../../node_modules/mockjs/dist/mock-min.js',
+        // '../../../node_modules/history/umd/History.min.js'
     ], 'public/assets/js/libraries.js');
 
     mix.browserify('main.js', 'public/assets/js/app.js');
