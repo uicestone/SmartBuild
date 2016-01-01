@@ -67,6 +67,7 @@ class Cases extends React.Component {
     }
     render() {
         if (!this.state.data) return null
+            
         return (
             <div className="page-cases"> 
                 <header className="row-fluid">

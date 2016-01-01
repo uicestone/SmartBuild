@@ -76,24 +76,13 @@ function redirectToChild(location, replaceState) {
 class App extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {}
-    }
-    componentDidMount () {
-        // ajax get data
-        setTimeout(()=> {
-            window.Data = Request.getCreateData()
-            this.setState({
-                data: window.Data
-            })
-        }, 300)
     }
     render() {
-        if (!this.state.data) return null
         return (
             <div className="wrapper">
                 <Navbar/>
                 <div className="main-content clearfix">
-                    {this.props.children && React.cloneElement(this.props.children, {data: this.state.data })}
+                    {this.props.children && React.cloneElement(this.props.children)}
                 </div>
             </div>  
         )

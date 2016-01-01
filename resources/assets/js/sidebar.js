@@ -16,7 +16,7 @@ class Sidebar extends React.Component {
         }.bind(this), false)
     }
     componentWillUnmount () {
-        Commu.price.el.removeEventListener('compuPrice', function () {
+        Commu.el.removeEventListener('compuPrice', function () {
         }, false)
     }
 
