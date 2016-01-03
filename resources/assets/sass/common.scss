@@ -60,7 +60,9 @@ button:focus, button:active {
 .btn {
     margin: 0 0.3em;
 }
-
+.green {
+    color: $green;
+}
 
 .open-menu.navbar {
     background: none;
@@ -385,8 +387,8 @@ header {
     text-align: left;
     .container {
         width: 100%;
-        .row-fluid {
-            padding: 0 2em 2em; 
+        .item {
+            padding: 0.5em 2em 1.5em; 
             border-top: 1px solid #999;
 
             h2 {
@@ -403,8 +405,24 @@ header {
         right: 0;
         top: 0;
         background: #eee;
-        width: 350px;
+        min-width: 300px;
         height: 100%;
+        margin-left: 0;
+        padding: 2em;
+        color: $green;
+        .inner {
+            position: relative;
+            height: inherit;
+            textarea {
+                width: 100%;
+            }
+            .bottom {
+                position: absolute;
+                width: 100%;
+                bottom: 1em;
+                text-align: center;
+            }
+        }
     }
 }
 
