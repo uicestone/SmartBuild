@@ -1,4 +1,5 @@
 import Mock from 'mockjs'
+import _ from 'lodash'
 
 const Data = Mock.mock({
     'cases|3-10': [{
@@ -13,13 +14,16 @@ const Data = Mock.mock({
                 '停车库（场）管理系统',
                 '视频监控系统'
             ],
-            'descriptions': [
-                '1080P 480TVL',
-                'CMOS  1/4枪式摄像机',
-                '数字摄像机 一体机',
-                '一般亮度 DC驱动',
-                'C 接口 DC12V高速'
-            ],
+            'descriptions': ()=> {
+                return _.shuffle([
+                    '1080P 480TVL',
+                    'CMOS  1/4枪式摄像机',
+                    '数字摄像机 一体机',
+                    '一般亮度 DC驱动',
+                    'C 接口 DC12V高速'
+                ])
+
+            },
             'price|1000-10000': 1
         }]
     }]

@@ -49,7 +49,10 @@ elixir(function(mix) {
         // '../../../node_modules/history/umd/History.min.js'
     ], 'public/assets/js/libraries.js');
 
-    mix.browserify('main.js', 'public/assets/js/app.js');
+    mix.browserify('main.jsx', 'public/assets/js/app.js', undefined, {
+        extensions: ["jsx","js","json"],
+        basedir: './'
+    });
     mix.browserSync(options.browserSync);
     mix.sass(['common.scss'], 'public/assets/css/common.css');
 
