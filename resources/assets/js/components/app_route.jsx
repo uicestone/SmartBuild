@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Router, Route, Link, IndexRoute, Redirect } from 'react-router'
 import { createHistory, useBasename } from 'history'
 import { createStore } from 'redux'
@@ -68,13 +68,6 @@ class Step extends React.Component {
     }
 }
 
-function redirectToChild(location, replaceState) {
-    const step = location.params.stepID ? location.params.stepID : "safeSys"
-    replaceState(null, '/create/step/' + step +'/node/1')
-}
-
-
-
 class Wrapper extends React.Component {
     constructor (props) {
         super(props)
@@ -91,7 +84,12 @@ class Wrapper extends React.Component {
     }
 }
 
-export default class App extends React.Component {
+function redirectToChild(location, replaceState) {
+    const step = location.params.stepID ? location.params.stepID : "safeSys"
+    replaceState(null, '/create/step/' + step +'/node/1')
+}
+
+export default class appRoute extends React.Component {
     render() {
         return (
             <Router>

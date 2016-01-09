@@ -1,31 +1,30 @@
-import React from 'react'
+import React, { PropTypes, Component } from 'react'
 import ReactUpdate from 'react-addons-update'
 import { Router, Route, Link, Redirect } from 'react-router'
 import _ from 'lodash'
+import classnames from 'classnames'
+
 
 import Request from '../mod/request'
 
-class SideBar extends React.Component {
-    constructor (props) {
-        super(props)
-        this.state = {name: this.props.data.name}
+class SideBar extends Component {
+    constructor (props, context) {
+        super(props, context)
+        this.state = {}
+    }
+    componentWillReceiveProps (nextProps) {
+        this.setState({name: nextProps.data.name})
     }
     shouldComponentUpdate (nextProps, nextState) {
-        console.log(nextProps, nextState)
-        return nextProps.data && nextProps.data.name
+        return !!(nextProps.data && nextProps.data.name !== undefined)
     }
     changeName (e) {
         const text = typeof e == 'object' ? e.target.value : e
         this.setState({name: text})
     }
-    save (text) {
-        return ()=> this.props.save(text)()
-    }
     render() {
-        // if (!this.props.data.name) return null
-
         return (
-            <div className={'side-bar ' + (this.props.isSideBarOpen ? 'span3' : 'hide')}>
+            <div className={classnames({'side-bar span3': true,'hide': !this.props.isSideBarOpen})}>
                 <div className="inner">
                     <h4>标题</h4>
                     <div>
@@ -35,17 +34,23 @@ class SideBar extends React.Component {
                     <span>示例二</span>
                     <span>示例三</span>
                     <div className="bottom">
-                        <button onClick={this.save(this.state.name)} className="btn btn-success btn-small">保存</button>
+                        <button onClick={_.partial(this.props.save, this.state.name)} className="btn btn-success btn-small">保存</button>
                     </div>
                 </div>
             </div>
         )
     }
 }
+SideBar.propTypes = {
+    data: PropTypes.object.isRequired,
+    isSideBarOpen: PropTypes.bool,
+    save: PropTypes.func.isRequired
+}
 
-class Item extends React.Component {
-    constructor () {
-        super()
+
+class Item extends Component {
+    constructor (props, context) {
+        super(props, context)
     }
     render() {
         return (
@@ -61,13 +66,20 @@ class Item extends React.Component {
         )
     }
 }
+Item.propTypes = {
+    data: PropTypes.object.isRequired
+}
 
-class DocGeneration extends React.Component {
+
+class DocGeneration extends Component {
     constructor () {
         super()
         this.state = {
             isSideBarOpen: false,
-            editedItem: {}
+            editedItem: {
+                type: '',
+                data: {}
+            }
         }
     }
     componentDidMount () {
@@ -80,25 +92,32 @@ class DocGeneration extends React.Component {
             })
         }, 300)
     }
-    openSideBar (item) {
+    edit (type, item, i) {
         this.setState({
             isSideBarOpen: true,
-            editedItem: item
+            editedItem: {
+                type: type,
+                data: item,
+                idx: i
+            }
         })
-        this.forceUpdate()
+        // this.forceUpdate()
 
     }
     save (text) {
-        return ()=> {
-            let newData = ReactUpdate(this.state.data, { name: {$set: text} })
-            this.setState({
-                isSideBarOpen: false,
-                data: newData
-            })
-
-
-
-        }.bind(this)
+        let newData
+        if (this.state.editedItem.type == 'title') {
+            newData = ReactUpdate(this.state.data, { name: {$set: text} })
+        } else {
+            let itemData = {}
+            itemData[this.state.editedItem.idx] = {name: {$set: text}}
+            let items = ReactUpdate(this.state.data.items, itemData)
+            newData = ReactUpdate(this.state.data, {$merge: {items: items}})
+        }
+        this.setState({
+            data: newData,
+            isSideBarOpen: false
+        })
     }
     render() {
         if (!this.state.data) return null
@@ -118,13 +137,13 @@ class DocGeneration extends React.Component {
                             <h2>
                                 {this.state.data.name} 
                                 <button className="btn btn-mini btn-success" 
-                                        onClick={this.openSideBar.bind(this, {name: this.state.data.name})}
+                                        onClick={this.edit.bind(this, 'title', {name: this.state.data.name})}
                                 >编辑</button>
                             </h2>
                         </div> 
-                        {this.state.data.items.map((item,i) => <Item key={i} edit={this.openSideBar.bind(this, item)} data={item} /> )}
+                        {this.state.data.items.map((item,i) => <Item key={i} edit={this.edit.bind(this, 'item', item, i)} data={item} /> )}
                     </div>
-                    <SideBar isSideBarOpen={this.state.isSideBarOpen} save={this.save.bind(this)} data={this.state.editedItem}/>
+                    <SideBar isSideBarOpen={this.state.isSideBarOpen} save={this.save.bind(this)} data={this.state.editedItem.data} />
                 </div>
             </div> 
         )
