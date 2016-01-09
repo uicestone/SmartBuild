@@ -2,7 +2,7 @@ import React from 'react/addons';
 import { Router, Route, Link, Redirect } from 'react-router';
 import _ from 'lodash'
 
-import Request from './mod/request'
+import Request from '../mod/request'
 
 class SideBar extends React.Component {
     constructor (props) {

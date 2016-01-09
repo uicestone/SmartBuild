@@ -33,6 +33,7 @@
     "history": "^1.11.0",
     "laravel-elixir": "^3.0.0",
     "lodash": "^3.10.1",
-    "mockjs": "^0.1.10"
+    "mockjs": "^0.1.10",
+    "redux": "^3.0.5"
   }
 }
