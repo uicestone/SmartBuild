@@ -1,5 +1,6 @@
-import React from 'react/addons';
-import { Router, Route, Link, Redirect } from 'react-router';
+import React from 'react'
+import ReactUpdate from 'react-addons-update'
+import { Router, Route, Link, Redirect } from 'react-router'
 import _ from 'lodash'
 
 import Request from '../mod/request'
@@ -89,7 +90,7 @@ class DocGeneration extends React.Component {
     }
     save (text) {
         return ()=> {
-            let newData = React.addons.update(this.state.data, { name: {$set: text} })
+            let newData = ReactUpdate(this.state.data, { name: {$set: text} })
             this.setState({
                 isSideBarOpen: false,
                 data: newData
@@ -121,7 +122,7 @@ class DocGeneration extends React.Component {
                                 >编辑</button>
                             </h2>
                         </div> 
-                        {this.state.data.items.map((item) => <Item edit={this.openSideBar.bind(this, item)} data={item} /> )}
+                        {this.state.data.items.map((item,i) => <Item key={i} edit={this.openSideBar.bind(this, item)} data={item} /> )}
                     </div>
                     <SideBar isSideBarOpen={this.state.isSideBarOpen} save={this.save.bind(this)} data={this.state.editedItem}/>
                 </div>

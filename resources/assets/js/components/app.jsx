@@ -1,7 +1,6 @@
 import React from 'react'
 import { Router, Route, Link, IndexRoute, Redirect } from 'react-router'
 import { createHistory, useBasename } from 'history'
-import jQuery from 'jquery'
 import { createStore } from 'redux'
 
 // import "../scss/common.scss"

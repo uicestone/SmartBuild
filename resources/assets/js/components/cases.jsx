@@ -13,7 +13,7 @@ class Box extends React.Component {
             <div className="box">
                 <h3>{this.props.data.name}</h3>
                 <ul>
-                    {this.props.data.descriptions.map((des) => <li>{des}</li> )} 
+                    {this.props.data.descriptions.map((des,i) => <li key={i}>{des}</li> )} 
 
                 </ul>
                 <span className="price">{this.props.data.price}元</span>
@@ -32,7 +32,7 @@ class Case extends React.Component {
             <div className="row">
                 <h2>{this.props.data.name}</h2>
                 <div className="scroll">
-                    {this.props.data.systems.map((sy) => <Box data={sy}></Box> )}
+                    {this.props.data.systems.map((sy,i) => <Box key={i} data={sy}></Box> )}
                 </div>
                 <div className="board">
                     <h4>描述</h4>
@@ -80,7 +80,7 @@ class Cases extends React.Component {
                             </button>
                         </div>
                     </form> 
-                    {this.state.cases.map((cs) => <Case data={cs}></Case> )}
+                    {this.state.cases.map((cs,i) => <Case key={i} data={cs}></Case> )}
                 </div> 
             </div> 
         )
