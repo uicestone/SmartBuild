@@ -27,6 +27,8 @@ var options = {
 loadLocConf()
 
 
+
+
 var elixir = require('laravel-elixir');
 
 /*
@@ -39,6 +41,15 @@ var elixir = require('laravel-elixir');
  | file for our application, as well as publishing vendor resources.
  |
  */
+
+
+var config = elixir.config;
+
+// Add browserify transformer
+config.js.browserify.transformers.push({
+    name: 'vueify',
+    options: {}
+});
 
 elixir(function(mix) {
 

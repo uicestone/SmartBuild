@@ -16,6 +16,7 @@
     "express-urlrewrite": "^1.2.0",
     "node-sass": "^3.3.3",
     "react": "^0.14.0",
+    "react-redux": "^4.0.0",
     "react-dom": "^0.14.0",
     "react-addons-update": "^0.14.0",
     "react-bootstrap": "^0.25.2",
@@ -27,6 +28,10 @@
     "font-awesome": "^4.4.0",
     "history": "^1.11.0",
     "laravel-elixir": "^3.0.0",
+    "vueify": "^5.0.1",
+    "babel-runtime": "^5.8.25",
+    "vue-hot-reload-api": "^1.2.1",
+    "vueify-insert-css": "^1.0.0",
     "lodash": "^3.10.1",
     "mockjs": "^0.1.10"
   }
