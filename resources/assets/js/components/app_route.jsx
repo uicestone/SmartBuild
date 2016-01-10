@@ -107,7 +107,7 @@ export default class appRoute extends React.Component {
                     </Route>
                     
 
-                    <Route path="doc-generation/:docId" component={DocGeneration} />
+                    <Route path="doc-generation/:docId" {...this.props} component={DocGeneration} />
                     <Route path="user/:userID" component={User}>
                         <Route path="tasks/:taskID" component={Task} />
                         <Redirect from="todos/:taskID" to="/user/:userID/tasks/:taskID" />

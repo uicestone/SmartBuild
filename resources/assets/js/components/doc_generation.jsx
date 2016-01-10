@@ -101,8 +101,6 @@ class DocGeneration extends Component {
                 idx: i
             }
         })
-        // this.forceUpdate()
-
     }
     save (text) {
         let newData
@@ -122,6 +120,7 @@ class DocGeneration extends Component {
     render() {
         if (!this.state.data) return null
 
+        const { generation, incrementIfOdd, incrementAsync, decrement, counter } = this.props.route
         return (
             <div className="page-dco-generation"> 
                 <header className="row-fluid">

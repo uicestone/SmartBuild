@@ -1,9 +1,9 @@
 export const INCREMENT_COUNTER = 'INCREMENT_COUNTER'
 export const DECREMENT_COUNTER = 'DECREMENT_COUNTER'
 
-export function increment() {
+export function isSiderbarOpen() {
   return {
-    type: INCREMENT_COUNTER
+    type: IS_SIDEBAR_OPEN
   }
 }
 
