@@ -20,6 +20,18 @@ class ModuleController extends Controller {
 		{
 			$query->where('name', 'like', '%' . Input::query('keyword') . '%');
 		}
+
+		if(!is_null(Input::query('parent_id')))
+		{
+			if(Input::query('parent_id'))
+			{
+				$query->where('parent_id', Input::query('parent_id'));
+			}
+			else
+			{
+				$query->whereNull('parent_id');
+			}
+		}
 		
 		$page = Input::query('page') ? Input::query('page') : 1;
 		
