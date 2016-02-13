@@ -1,7 +1,16 @@
 <div class="row">
 	<br>
 	<div class="col-sm-6">
-		<a href="#parameter/new" class="btn btn-primary">添加</a>
+		<form class="form-inline" style="display:inline" ng-submit="location.search(queryArgs)">
+			<div class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon">搜索</span>
+					<span class="search-clear fa fa-close" ng-click="location.search('keyword', null)" ng-show="queryArgs.keyword" style="right:10px"></span>
+					<input type="text" class="form-control input-sm" ng-model="queryArgs.keyword" placeholder="名称...">
+				</div>
+			</div>
+		</form>
+		<a ng-href="parameter/new" class="btn btn-primary btn-sm pull-left" style="margin-right:5px">添加</a>
 	</div>
 	<div class="col-sm-6">
 		<div class="paginator text-right">

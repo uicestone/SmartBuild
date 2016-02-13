@@ -11,17 +11,13 @@
 
 		<title>一步智能楼宇方案构建系统 - 管理后台</title>
 
+		<base href="<?=url('admin')?>/">
+
 		<!-- Bootstrap Core CSS -->
 		<link href="<?=url('packages')?>/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
 		<!-- MetisMenu CSS -->
 		<link href="<?=url('packages')?>/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-
-		<!-- DataTables CSS -->
-		<link href="<?=url('packages')?>/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
-
-		<!-- DataTables Responsive CSS -->
-		<link href="<?=url('packages')?>/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
 		<!-- Custom CSS -->
 		<link href="<?=url('css')?>/sb-admin-2.css" rel="stylesheet">
@@ -34,8 +30,8 @@
 		<script type="text/javascript" src="<?=url('packages')?>/angular-resource/angular-resource.min.js"></script>
 		<script type="text/javascript" src="<?=url('packages')?>/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		
-		<script type="text/javascript" src="<?=url('app')?>/services.js"></script>
-		<script type="text/javascript" src="<?=url('app')?>/app.js"></script>
+		<script type="text/javascript" src="<?=url('admin/services.js')?>"></script>
+		<script type="text/javascript" src="<?=url('admin/app.js')?>"></script>
 
 	</head>
 
@@ -76,9 +72,9 @@
 						<ul class="nav" id="side-menu">
 							<li class="sidebar-search">
 								<div class="input-group custom-search-form">
-									<input type="text" class="form-control" placeholder="搜索...">
+									<input type="text" class="form-control" placeholder="搜索..." disabled="disabled">
 									<span class="input-group-btn">
-										<button class="btn btn-default" type="button">
+										<button class="btn btn-default" type="button" disabled="disabled">
 											<i class="fa fa-search"></i>
 										</button>
 									</span>
@@ -86,16 +82,16 @@
 								<!-- /input-group -->
 							</li>
 							<li>
-								<a href="#module"><i class="fa fa-edit fa-fw"></i> 模块</a>
+								<a href="module"><i class="fa fa-edit fa-fw"></i> 模块</a>
 							</li>
 							<li>
-								<a href="#parameter"><i class="fa fa-dashboard fa-fw"></i> 参数</a>
+								<a href="parameter"><i class="fa fa-dashboard fa-fw"></i> 参数</a>
 							</li>
 							<li>
-								<a href="#product"><i class="fa fa-edit fa-fw"></i> 产品</a>
+								<a href="product"><i class="fa fa-edit fa-fw"></i> 产品</a>
 							</li>
 							<li>
-								<a href="#user"><i class="fa fa-user fa-fw"></i> 用户</a>
+								<a href="user"><i class="fa fa-user fa-fw"></i> 用户</a>
 							</li>
 						</ul>
 					</div>

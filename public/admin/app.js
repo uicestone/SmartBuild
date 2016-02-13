@@ -10,11 +10,11 @@ angular.module('smartbuild', [
 	'smartbuild.products',
 	'smartbuild.users'
 ])
-.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+.config(['$routeProvider', '$httpProvider', '$locationProvider', function($routeProvider, $httpProvider, $locationProvider) {
 	$routeProvider
 		.when('/user', {
 			controller: 'UserController',
-			templateUrl: 'app/user/list.html',
+			templateUrl: 'user/list.html',
 			resolve: {
 				users: ['$route', 'User', function($route, User){
 					return User.query(angular.extend({per_page: 20}, $route.current.params)).$promise;
@@ -23,7 +23,7 @@ angular.module('smartbuild', [
 		})
 		.when('/user/:id', {
 			controller: 'UserEditController',
-			templateUrl: 'app/user/edit.html',
+			templateUrl: 'user/edit.html',
 			resolve: {
 				user: ['$route', 'User', function($route, User){
 					return User.get({id: $route.current.params.id}).$promise;
@@ -32,7 +32,7 @@ angular.module('smartbuild', [
 		})
 		.when('/module', {
 			controller: 'ModuleController',
-			templateUrl: 'app/module/list.html',
+			templateUrl: 'module/list.html',
 			resolve: {
 				modules: ['$route', 'Module', function($route, Module){
 					return Module.query(angular.extend({per_page: 20}, $route.current.params)).$promise;
@@ -41,7 +41,7 @@ angular.module('smartbuild', [
 		})
 		.when('/module/:id', {
 			controller: 'ModuleEditController',
-			templateUrl: 'app/module/edit.html',
+			templateUrl: 'module/edit.html',
 			resolve: {
 				module: ['$route', 'Module', function($route, Module){
 					if($route.current.params.id === 'new'){
@@ -53,7 +53,7 @@ angular.module('smartbuild', [
 		})
 		.when('/parameter', {
 			controller: 'ParameterController',
-			templateUrl: 'app/parameter/list.html',
+			templateUrl: 'parameter/list.html',
 			resolve: {
 				parameters: ['$route', 'Parameter', function($route, Parameter){
 					return Parameter.query(angular.extend({per_page: 20}, $route.current.params)).$promise;
@@ -62,7 +62,7 @@ angular.module('smartbuild', [
 		})
 		.when('/parameter/:id', {
 			controller: 'ParameterEditController',
-			templateUrl: 'app/parameter/edit.html',
+			templateUrl: 'parameter/edit.html',
 			resolve: {
 				parameter: ['$route', 'Parameter', function($route, Parameter){
 					if($route.current.params.id === 'new'){
@@ -74,7 +74,7 @@ angular.module('smartbuild', [
 		})
 		.when('/product', {
 			controller: 'ProductController',
-			templateUrl: 'app/product/list.html',
+			templateUrl: 'product/list.html',
 			resolve: {
 				products: ['$route', 'Product', function($route, Product){
 					return Product.query(angular.extend({per_page: 20}, $route.current.params)).$promise;
@@ -83,7 +83,7 @@ angular.module('smartbuild', [
 		})
 		.when('/product/:id', {
 			controller: 'ProductEditController',
-			templateUrl: 'app/product/edit.html',
+			templateUrl: 'product/edit.html',
 			resolve: {
 				product: ['$route', 'Product', function($route, Product){
 					if($route.current.params.id === 'new'){
@@ -96,6 +96,8 @@ angular.module('smartbuild', [
 		.otherwise({redirectTo: '/module'});
 
 	$httpProvider.interceptors.push('HttpInterceptor');
+
+	$locationProvider.html5Mode(true);
 
 }])
 
