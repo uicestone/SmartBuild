@@ -94,6 +94,7 @@ export default class appRoute extends React.Component {
         return (
             <Router>
                 <Route path="/" component={Wrapper}>
+                    <IndexRoute component={Search} />
                     <Route path="search" component={Search} />
                     <Route path="login" component={Login} />
                     <Route path="reg" component={Reg} />
