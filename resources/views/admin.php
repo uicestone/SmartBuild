@@ -9,7 +9,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<title>智能楼宇方案构建系统 - 管理后台</title>
+		<title>一步智能楼宇方案构建系统 - 管理后台</title>
 
 		<!-- Bootstrap Core CSS -->
 		<link href="<?=url('packages')?>/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
