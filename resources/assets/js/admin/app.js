@@ -101,7 +101,7 @@ angular.module('smartbuild', [
 
 }])
 
-.controller('AlertCtrl', ['$scope', 'Alert',
+.controller('AlertController', ['$scope', 'Alert',
 	function($scope, Alert){
 		$scope.alerts = Alert.get();
 		$scope.close = Alert.close;
@@ -124,21 +124,23 @@ angular.module('smartbuild.modules', [])
 	$scope.itemsTotal = Number(headers['items-total']);
 	$scope.itemsStart = Number(headers['items-start']);
 	$scope.itemsEnd = Number(headers['items-end']);
-	
+
+	$scope.queryArgs = $location.search();
+	$scope.location = $location;
+
 	$scope.nextPage = function(){
 		$location.search('page', ++$scope.currentPage);
-	}
+	};
 
 	$scope.previousPage = function(){
 		$scope.currentPage--;
 		$location.search('page', $scope.currentPage === 1 ? null : $scope.currentPage);
-	}
+	};
 	
 	$scope.editModule = function(module){
 		$location.url('module/' + module.id);
-	}
-	
-	
+	};
+
 }])
 .controller('ModuleEditController', ['$scope', '$location', 'module', 'Alert', 'Module', function($scope, $location, module, Alert, Module){
 	$scope.module = module;
@@ -146,12 +148,12 @@ angular.module('smartbuild.modules', [])
 		module.$save(function(){
 			Alert.add('模块已更新', 'success');
 		});
-	}
+	};
 	$scope.remove = function(module){
 		module.$remove({}, function(){
 			$location.url('module');
 		});
-	}
+	};
 	$scope.searchModule = function(name){
 		return Module.query({keyword: name}).$promise;
 	}
@@ -166,19 +168,22 @@ angular.module('smartbuild.parameters', []).controller('ParameterController', ['
 	$scope.itemsTotal = Number(headers['items-total']);
 	$scope.itemsStart = Number(headers['items-start']);
 	$scope.itemsEnd = Number(headers['items-end']);
-	
+
+	$scope.queryArgs = $location.search();
+	$scope.location = $location;
+
 	$scope.nextPage = function(){
 		$location.search('page', ++$scope.currentPage);
-	}
+	};
 
 	$scope.previousPage = function(){
 		$scope.currentPage--;
 		$location.search('page', $scope.currentPage === 1 ? null : $scope.currentPage);
-	}
+	};
 	
 	$scope.editParameter = function(parameter){
 		$location.url('parameter/' + parameter.id);
-	}
+	};
 }])
 .controller('ParameterEditController', ['$scope', 'parameter', 'Alert', 'Module', 'User', 'Parameter', function($scope, parameter, Alert, Module, User, Parameter){
 	$scope.parameter = parameter;
@@ -186,13 +191,13 @@ angular.module('smartbuild.parameters', []).controller('ParameterController', ['
 		parameter.$save({}, function(){
 			Alert.add('参数已更新', 'success');
 		});
-	}
+	};
 	$scope.searchModule = function(name){
 		return Module.query({keyword: name}).$promise;
-	}
+	};
 	$scope.searchUser = function(name){
 		return User.query({keyword: name, with_group: true}).$promise;
-	}
+	};
 	$scope.searchParameter = function(name){
 		return Parameter.query({keyword: name}).$promise;
 	}
@@ -207,15 +212,18 @@ angular.module('smartbuild.products', []).controller('ProductController', ['$sco
 	$scope.itemsTotal = Number(headers['items-total']);
 	$scope.itemsStart = Number(headers['items-start']);
 	$scope.itemsEnd = Number(headers['items-end']);
-	
+
+	$scope.queryArgs = $location.search();
+	$scope.location = $location;
+
 	$scope.nextPage = function(){
 		$location.search('page', ++$scope.currentPage);
-	}
+	};
 
 	$scope.previousPage = function(){
 		$scope.currentPage--;
 		$location.search('page', $scope.currentPage === 1 ? null : $scope.currentPage);
-	}
+	};
 	
 	$scope.editProduct = function(product){
 		$location.url('product/' + product.id);
@@ -227,15 +235,44 @@ angular.module('smartbuild.products', []).controller('ProductController', ['$sco
 		product.$save({}, function(){
 			Alert.add('产品已更新', 'success');
 		});
-	}
+	};
 	$scope.searchModule = function(name){
 		return Module.query({keyword: name}).$promise;
-	}
+	};
 	$scope.searchUser = function(name){
 		return User.query({keyword: name, with_group: true}).$promise;
-	}
+	};
 	$scope.searchProduct = function(name){
 		return Product.query({keyword: name}).$promise;
+	}
+}])
+
+.controller('NavController', ['$scope',
+	function($scope){
+		$scope.navIsCollapsed = true;
+		$scope.user = angular.fromJson(localStorage.getItem('user'));
+		$scope.logout = function(){
+			localStorage.setItem('user', null);
+			window.location.href = url + '/admin/login';
+		}
+	}
+])
+
+.controller('LoginController', ['$scope', 'Alert', function($scope, Alert){
+	$scope.login = function(){
+		$.post(apiBase + 'auth', {username: $scope.username, password: $scope.password})
+			.success(function(result){
+				localStorage.setItem('user', angular.toJson(result));
+				window.location.href = adminUrl || url + '/admin/';
+			})
+			.fail(function(response){
+				if(response.status === 401){
+					Alert.add('用户名不存在', 'danger');
+				}
+				else if (response.status === 403){
+					Alert.add('密码错误', 'danger');
+				}
+			});
 	}
 }]);
 
@@ -248,19 +285,23 @@ angular.module('smartbuild.users', []).controller('UserController', ['$scope', '
 	$scope.itemsTotal = Number(headers['items-total']);
 	$scope.itemsStart = Number(headers['items-start']);
 	$scope.itemsEnd = Number(headers['items-end']);
-	
+
+	$scope.queryArgs = $location.search();
+	$scope.location = $location;
+
 	$scope.nextPage = function(){
 		$location.search('page', ++$scope.currentPage);
-	}
+	};
 
 	$scope.previousPage = function(){
 		$scope.currentPage--;
 		$location.search('page', $scope.currentPage === 1 ? null : $scope.currentPage);
-	}
+	};
 	
 	$scope.editUser = function(user){
 		$location.url('user/' + user.id);
-	}
+	};
+
 }])
 .controller('UserEditController', ['$scope', 'user', 'Alert', function($scope, user, Alert){
 	$scope.user = user;
@@ -268,5 +309,5 @@ angular.module('smartbuild.users', []).controller('UserController', ['$scope', '
 		user.$update({}, function(){
 			Alert.add('用户已更新', 'success');
 		});
-	}
+	};
 }]);

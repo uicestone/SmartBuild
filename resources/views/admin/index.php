@@ -6,33 +6,20 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
+		<meta name="author" content="Uice Lu">
+		<meta name="renderer" content="webkit">
 
 		<title>一步智能楼宇方案构建系统 - 管理后台</title>
-
+		
 		<base href="<?=url('admin')?>/">
+		<link href="<?=url(elixir('assets/css/admin.css'))?>" rel="stylesheet">
 
-		<!-- Bootstrap Core CSS -->
-		<link href="<?=url('packages')?>/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-		<!-- MetisMenu CSS -->
-		<link href="<?=url('packages')?>/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-
-		<!-- Custom CSS -->
-		<link href="<?=url('css')?>/sb-admin-2.css" rel="stylesheet">
-
-		<!-- Custom Fonts -->
-		<link href="<?=url('packages')?>/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		
-		<script type="text/javascript" src="<?=url('packages')?>/angular/angular.js"></script>
-		<script type="text/javascript" src="<?=url('packages')?>/angular-route/angular-route.min.js"></script>
-		<script type="text/javascript" src="<?=url('packages')?>/angular-resource/angular-resource.min.js"></script>
-		<script type="text/javascript" src="<?=url('packages')?>/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-		
-		<script type="text/javascript" src="<?=url('admin/services.js')?>"></script>
-		<script type="text/javascript" src="<?=url('admin/app.js')?>"></script>
-
+		<script type="text/javascript">
+			var url = '<?=env('URL')?>';
+			var apiBase = '<?=env('URL_API', env('URL') . '/api/v1')?>/';
+			var adminUrl = '<?=env('URL_ADMIN', env('URL') . '/admin')?>';
+		</script>
+		<script type="text/javascript" src="<?=url(elixir('assets/js/admin.js'))?>"></script>
 	</head>
 
 	<body>
@@ -40,25 +27,25 @@
 		<div id="wrapper">
 
 			<!-- Navigation -->
-			<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+			<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0" ng-controller="NavController">
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<button type="button" class="navbar-toggle"  ng-click="navIsCollapsed = !navIsCollapsed">
 						<span class="sr-only">导航</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.html">智能楼宇方案构建系统 - 管理后台</a>
+					<span class="navbar-brand">一步智能楼宇方案构建系统 - 管理后台</span>
 				</div>
 				<!-- /.navbar-header -->
 
 				<ul class="nav navbar-top-links navbar-right">
 					<li class="dropdown" dropdown>
 						<a href="" class="dropdown-toggle" dropdown-toggle>
-							<i class="fa fa-user fa-fw"></i> <?=app()->user->name?> <i class="fa fa-caret-down"></i>
+							<i class="fa fa-user fa-fw"></i> {{ user.name }} <i class="fa fa-caret-down"></i>
 						</a>
 						<ul class="dropdown-menu dropdown-user" dropdown-menu>
-							<li><a href="<?=url('logout')?>"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
+							<li><a ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
 							</li>
 						</ul>
 						<!-- /.dropdown-user -->
@@ -68,7 +55,7 @@
 				<!-- /.navbar-top-links -->
 
 				<div class="navbar-default sidebar" role="navigation">
-					<div class="sidebar-nav navbar-collapse">
+					<div class="sidebar-nav navbar-collapse" collapse="navIsCollapsed">
 						<ul class="nav" id="side-menu">
 							<li class="sidebar-search">
 								<div class="input-group custom-search-form">
@@ -105,16 +92,7 @@
 		</div>
 		<!-- /#wrapper -->
 
-		<!-- jQuery -->
-		<script src="<?=url('packages')?>/jquery/dist/jquery.min.js"></script>
-
-		<!-- Metis Menu Plugin JavaScript -->
-		<script src="<?=url('packages')?>/metisMenu/dist/metisMenu.min.js"></script>
-
-		<!-- Custom Theme JavaScript -->
-		<script src="<?=url('js')?>/sb-admin-2.js"></script>
-
-		<div class="alert-container" ng-controller="AlertCtrl">
+		<div class="alert-container" ng-controller="AlertController">
 			<alert ng-repeat="alert in alerts" type="{{alert.type}}" ng-mouseenter="toggleCloseButton($index)" ng-mouseleave="toggleCloseButton($index)">
 				<button ng-show="alert.closeable" type="button" class="close" ng-click="close(alert.id)">
 					<span aria-hidden="true">×</span>

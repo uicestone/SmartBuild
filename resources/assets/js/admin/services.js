@@ -8,7 +8,7 @@ var responseInterceptor = function(response){
 angular.module('smartbuild.services', ['ngResource'])
 
 .service('User', ['$resource', function($resource){
-	var user =  $resource('../api/v1/user/:id', {id: '@id'}, {
+	var user =  $resource(apiBase + 'user/:id', {id: '@id'}, {
 		query: {method: 'GET', isArray: true, interceptor: {response: responseInterceptor}},
 		update: {method: 'PUT'}
 	});
@@ -22,11 +22,11 @@ angular.module('smartbuild.services', ['ngResource'])
 		}
 	}
 	
-	return user;	
+	return user;
 }])
 
 .service('Module', ['$resource', function($resource){
-	var module = $resource('../api/v1/module/:id', {id: '@id'}, {
+	var module = $resource(apiBase + 'module/:id', {id: '@id'}, {
 		query: {method: 'GET', isArray: true, interceptor: {response: responseInterceptor}},
 		create: {method: 'POST'},
 		update: {method: 'PUT'}
@@ -45,7 +45,7 @@ angular.module('smartbuild.services', ['ngResource'])
 }])
 
 .service('Parameter', ['$resource', function($resource){
-	var parameter = $resource('../api/v1/parameter/:id', {id: '@id'}, {
+	var parameter = $resource(apiBase + 'parameter/:id', {id: '@id'}, {
 		query: {method: 'GET', isArray: true, interceptor: {response: responseInterceptor}},
 		create: {method: 'POST'},
 		update: {method: 'PUT'}
@@ -65,7 +65,7 @@ angular.module('smartbuild.services', ['ngResource'])
 }])
 
 .service('Product', ['$resource', function($resource){
-	var product = $resource('../api/v1/product/:id', {id: '@id'}, {
+	var product = $resource(apiBase + 'product/:id', {id: '@id'}, {
 		query: {method: 'GET', isArray: true, interceptor: {response: responseInterceptor}},
 		create: {method: 'POST'},
 		update: {method: 'PUT'}

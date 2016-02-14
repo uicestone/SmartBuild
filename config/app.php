@@ -147,6 +147,7 @@ return [
 		'App\Providers\RouteServiceProvider',
 
 		'Barryvdh\Cors\ServiceProvider',
+		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 	],
 
 	/*

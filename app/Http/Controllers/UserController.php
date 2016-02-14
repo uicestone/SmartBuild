@@ -114,7 +114,7 @@ class UserController extends Controller {
 		{
 			$query->where('name', Input::data('username'));
 		});
-		
+
 		if(!$query_user->first())
 		{
 			throw new HttpException(401, '用户名或联系方式不存在');
@@ -127,28 +127,11 @@ class UserController extends Controller {
 			throw new HttpException(403, '密码错误');
 		}
 
-		if(\Route::current()->uri() === 'login')
-		{	
-			return redirect('admin')->withCookie(cookie('user_id', $user->id));
-		}
-		else
-		{
-			$token = Hash::make($user->name . $user->password . microtime(true));
+		$token = Hash::make($user->name . $user->password . microtime(true));
+		$user->token = $token;
+		$user->save();
 
-			$user->token = $token;
-
-			$user->save();
-
-			$user->addVisible('token');
-			$user->load('group');
-
-			return Response::json($user)->header('Token', $user->token);
-		}
-	}
-	
-	public function logout()
-	{
-		return redirect('login')->withCookie(cookie('user_id', null));
-	}
-	
+		$user->addVisible('token');
+		return Response::json($user)->header('Token', $user->token);
+	}	
 }

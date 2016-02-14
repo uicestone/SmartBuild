@@ -12,7 +12,6 @@ abstract class Controller extends BaseController {
 	
 	function __construct()
 	{
-		
 		app()->user = null;
 		
 		if(Input::header('Authorization') && $user = User::where('token', Input::header('Authorization'))->first())
@@ -24,19 +23,7 @@ abstract class Controller extends BaseController {
 				$user->last_ip = Input::ip();
 				$user->save();
 			}
-		}
-		
-		if(Input::cookie('user_id') && $user = User::where('id', Input::cookie('user_id'))->first())
-		{
-			app()->user = $user;
-			
-			if(Input::ip() !== $user->last_ip)
-			{
-				$user->last_ip = Input::ip();
-				$user->save();
-			}
-		}
-		
+		}		
 	}
 
 }
