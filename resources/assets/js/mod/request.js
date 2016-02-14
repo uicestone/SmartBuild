@@ -10,7 +10,7 @@ class Request {
     getCasesData () {
         return casesData
     }
-    getDocGenerationData () {
+    getDocGenerationData (id) {
         return docGenerationData
     }
 }

@@ -13,28 +13,141 @@ class SideBar extends Component {
         this.state = {}
     }
     componentWillReceiveProps (nextProps) {
-        this.setState({name: nextProps.data.name})
+        this.setState({item: nextProps.item})
     }
     shouldComponentUpdate (nextProps, nextState) {
-        return !!(nextProps.data && nextProps.data.name !== undefined)
+        return !!(nextProps.item && nextProps.item.name !== undefined)
     }
-    changeName (e) {
+    changeTextArae (e) {
         const text = typeof e == 'object' ? e.target.value : e
-        this.setState({name: text})
+        let item
+        if (this.state.item.editType == 'title') {
+            this.state.item.name = text
+            item = ReactUpdate(this.state.item, {name: {$set: text}})
+        } else {
+            this.state.item.content = text
+            item = ReactUpdate(this.state.item, {content: {$set: text}})
+        }
+        this.setState({item: item})
+    }
+    changeFillIn (question, i, e) {
+        const text = typeof e == 'object' ? e.target.value : e
+        let questionObj = {}
+        questionObj[i] = {value:  {$set: text}}
+        let item = ReactUpdate(this.state.item, {questions: questionObj})
+        this.setState({
+            item: item
+        })
+    }
+    replaceWithInput (question, i) {
+        let text = question.text.split('<>')
+        return (<div>
+            {text[0]} 
+            <input type="text" 
+                value={question.value} 
+                onChange={this.changeFillIn.bind(this, question, i)}
+                id={"inputWarning" + i} />  
+            {text[1]}
+        </div>)
+    }
+    handleSave () {
+        let saveFn
+        switch (this.state.item.editType) {
+            case 'title':
+                this.props.save(this.state.item)
+                break;
+            case 'text':
+                this.props.save(this.state.item)
+                break;
+            case 'advance':
+                this.props.save(this.state.item)
+                break;
+        }
+    }
+    choose (i, question, j) {
+        let questionObj = {}
+        questionObj[i] = {value:  {$set: j}}
+        let item = ReactUpdate(this.state.item, {questions: questionObj})
+        this.setState({
+            item: item
+        })
     }
     render() {
-        return (
-            <div className={classnames({'side-bar span3': true,'hide': !this.props.isSideBarOpen})}>
-                <div className="inner">
+        let tpl
+        switch (this.props.item.editType) {
+            case 'title':
+                tpl = <div>
                     <h4>标题</h4>
                     <div>
-                        <textarea rows="8" value={this.state.name} onChange={this.changeName.bind(this)}/>
+                        <textarea rows="8" 
+                            value={this.state.item.name} 
+                            onChange={this.changeTextArae.bind(this)}
+                            ref='newTxt' />
+                    </div>
+                    <span>示例一</span>
+                    <span>示例二</span>
+                </div>
+                break;
+            case 'text':
+                tpl = <div>
+                    <h4>{this.props.item.name}</h4>
+                    <div>
+                        <textarea rows="8" 
+                            value={this.state.item.content} 
+                            onChange={this.changeTextArae.bind(this)}
+                            ref='newTxt' />
                     </div>
                     <span>示例一</span>
                     <span>示例二</span>
                     <span>示例三</span>
+                </div>
+                break;
+            case 'advance':
+                tpl = <div>
+                    <h4>{this.props.item.name}</h4>
+                    {this.state.item.questions.map(function (question, i) {
+                        let questionDom;
+                        if (question.type == "fillIn") {
+                            questionDom = (
+                                <div className="control-group" key={i}>
+                                    <div className="controls">
+                                        {this.replaceWithInput(question, i)}
+                                    </div>
+                                </div>
+                            )
+                        } else if (question.type == "radio") {
+                            questionDom = (
+                                <div className="control-group" key={i}>
+                                    <label className="control-label">{question.text}:</label>
+                                    <div className="controls">
+                                    {question.options.map(function (option, j) {
+                                        return (
+                                            <label key={j}>
+                                                <input type="radio" 
+                                                    checked={question.value == j}
+                                                    onChange={this.choose.bind(this, i, question, j)}
+                                                    name={`optionsRadios${i}`} 
+                                                    value="option1" />
+                                                <a className="btn">{option}</a>
+                                            </label>
+                                        )
+                                    }.bind(this))}
+                                    </div>
+                                </div>
+                            )
+                        }
+                        return questionDom;
+
+                    }.bind(this))}
+                </div>
+                break;
+        }
+        return (
+            <div className={classnames({'side-bar span3': true,'hide': !this.props.isSideBarOpen})}>
+                <div className="inner">
+                    {tpl}
                     <div className="bottom">
-                        <button onClick={_.partial(this.props.save, this.state.name)} className="btn btn-success btn-small">保存</button>
+                        <button onClick={this.handleSave.bind(this)} className="btn btn-success btn-small">保存</button>
                     </div>
                 </div>
             </div>
@@ -42,7 +155,7 @@ class SideBar extends Component {
     }
 }
 SideBar.propTypes = {
-    data: PropTypes.object.isRequired,
+    item: PropTypes.object.isRequired,
     isSideBarOpen: PropTypes.bool,
     save: PropTypes.func.isRequired
 }
@@ -76,7 +189,7 @@ class DocGeneration extends Component {
         super()
         this.state = {
             isSideBarOpen: false,
-            editedItem: {
+            question: {
                 type: '',
                 data: {}
             }
@@ -85,33 +198,44 @@ class DocGeneration extends Component {
     componentDidMount () {
         // ajax get data
         setTimeout(()=> {
-            let data = Request.getDocGenerationData()
+            let data = Request.getDocGenerationData(this.props.params.docId)
             console.log(data)
             this.setState({
                 data: data
             })
         }, 300)
     }
-    edit (type, item, i) {
+    edit (key, item) {
         this.setState({
             isSideBarOpen: true,
-            editedItem: {
-                type: type,
-                data: item,
-                idx: i
-            }
+            editKey: key,
+            question: item
         })
     }
-    save (text) {
+    save (item) {
         let newData
-        if (this.state.editedItem.type == 'title') {
-            newData = ReactUpdate(this.state.data, { name: {$set: text} })
-        } else {
-            let itemData = {}
-            itemData[this.state.editedItem.idx] = {name: {$set: text}}
-            let items = ReactUpdate(this.state.data.items, itemData)
-            newData = ReactUpdate(this.state.data, {$merge: {items: items}})
+        let setObj = {}
+        switch (this.state.question.editType) {
+            case 'title':
+                newData = ReactUpdate(this.state.data, {title: {$set: item}})
+                break;
+            case 'text':
+                setObj[this.state.editKey] = {$set: item}
+                newData = ReactUpdate(this.state.data, setObj)
+                break;
+            case 'advance':
+                setObj.overall = {$set: item}
+                newData = ReactUpdate(this.state.data, setObj)
+                break;
+
         }
+        // if (this.state.question.editType == 'title') {
+        //     newData = ReactUpdate(this.state.data, { name: {$set: text} })
+        // } else {
+        //     let itemData = {}
+        //     let items = ReactUpdate(this.state.data.items, itemData)
+        //     newData = ReactUpdate(this.state.data, {$merge: {items: items}})
+        // }
         this.setState({
             data: newData,
             isSideBarOpen: false
@@ -121,6 +245,7 @@ class DocGeneration extends Component {
         if (!this.state.data) return null
 
         const { generation, incrementIfOdd, incrementAsync, decrement, counter } = this.props.route
+        let DocData = this.state.data
         return (
             <div className="page-dco-generation"> 
                 <header className="row-fluid">
@@ -134,15 +259,68 @@ class DocGeneration extends Component {
                     <div className={this.state.isSideBarOpen ? 'span9' : ''}>
                         <div className="item">
                             <h2>
-                                {this.state.data.name} 
+                                {DocData.title.name}
                                 <button className="btn btn-mini btn-success" 
-                                        onClick={this.edit.bind(this, 'title', {name: this.state.data.name})}
+                                        onClick={this.edit.bind(this, 'title', DocData.title)}
                                 >编辑</button>
                             </h2>
                         </div> 
-                        {this.state.data.items.map((item,i) => <Item key={i} edit={this.edit.bind(this, 'item', item, i)} data={item} /> )}
+                        <div className="item">
+                            <h3>
+                                {DocData.background.name} 
+                                <button className="btn btn-mini btn-success"
+                                        onClick={this.edit.bind(this, 'background', DocData.background)}
+                                >编辑</button>
+                            </h3>
+                            <div className="" dangerouslySetInnerHTML={{__html: DocData.background.content}}></div>
+                        </div>
+                        <div className="item">
+                            <h3>
+                                {DocData.standard.name} 
+                                <button className="btn btn-mini btn-success"
+                                        onClick={this.edit.bind(this, 'standard', DocData.standard)}
+                                >编辑</button>
+                            </h3>
+                            <div className="" dangerouslySetInnerHTML={{__html: DocData.standard.content}}></div>
+                        </div>
+                        <div className="item">
+                            <h3>
+                                {DocData.system.name} 
+                                <button className="btn btn-mini btn-success"
+                                        onClick={this.edit.bind(this, 'system', DocData.system)}
+                                >编辑</button>
+                            </h3>
+                            <div className="" dangerouslySetInnerHTML={{__html: DocData.system.content}}></div>
+                        </div>
+                        <div className="item">
+                            <h3>
+                                {DocData.overall.name} 
+                                <button className="btn btn-mini btn-success"
+                                        onClick={this.edit.bind(this, 'overall', DocData.overall)}
+                                >编辑</button>
+                            </h3>
+                            { DocData.overall.questions.map(function (item, i) {
+
+                                let itemDom;
+                                if (item.type == "fillIn") {
+                                    itemDom = (
+                                        <div className="control-group" key={i}>
+                                            <label className="control-label" htmlFor={`inputWarning${i}`}>{item.text.replace('<>', item.value)}</label>
+                                        </div>
+                                    )
+                                } else if (item.type == "radio") {
+                                    itemDom = (
+                                        <div className="control-group" key={i}>
+                                            <label className="control-label">{item.text}:{item.options[item.value]}</label>
+                                        </div>
+                                    )
+                                }
+                                return itemDom;
+
+                            }.bind(this))}
+                        </div>
                     </div>
-                    <SideBar isSideBarOpen={this.state.isSideBarOpen} save={this.save.bind(this)} data={this.state.editedItem.data} />
+                    <SideBar isSideBarOpen={this.state.isSideBarOpen} save={this.save.bind(this)} item={this.state.question} />
                 </div>
             </div> 
         )

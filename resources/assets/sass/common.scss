@@ -415,6 +415,9 @@ header {
             textarea {
                 width: 100%;
             }
+            input[type=text] {
+                width: 60px;
+            }
             .bottom {
                 position: absolute;
                 width: 100%;
