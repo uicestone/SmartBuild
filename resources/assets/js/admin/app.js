@@ -121,6 +121,7 @@ angular.module('smartbuild.modules', [])
 	
 	// get pagination argument from headers
 	var headers = $scope.modules.$response.headers();
+	console.log(headers);
 	$scope.itemsTotal = Number(headers['items-total']);
 	$scope.itemsStart = Number(headers['items-start']);
 	$scope.itemsEnd = Number(headers['items-end']);

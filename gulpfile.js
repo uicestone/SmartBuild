@@ -11,32 +11,7 @@ var elixir = require('laravel-elixir');
  |
  */
 
-
-var config = elixir.config;
-
-// Add browserify transformer
-config.js.browserify.transformers.push({
-    name: 'vueify',
-    options: {}
-});
-
 elixir(function(mix) {
-
-    // 编译前台JS
-    mix.browserify('main.jsx', 'public/assets/js/app.js', undefined, {
-        extensions: ['jsx','js','json'],
-        basedir: './'
-    });
-
-    // 打包前台CSS
-    mix.sass(['common.scss'], 'public/assets/css/common.css');
-
-    mix.styles([
-        '../../../public/packages/bootstrap2.3.2/bootstrap/css/bootstrap.min.css',
-        '../../../public/packages/bootstrap2.3.2/bootstrap/css/bootstrap-responsive.min.css',
-        '../../../public/packages/font-awesome/css/font-awesome.min.css',
-        '../../../public/assets/css/common.css'
-    ], 'public/assets/css/app.css');
 
     // 打包后台CSS
     mix.styles([
@@ -57,13 +32,9 @@ elixir(function(mix) {
     ], 'public/assets/js/admin.js');
 
     // 版本化所有打包后的CSS和JS
-    mix.version([
-        'assets/js/app.js', 'assets/css/app.css',
-        'assets/js/admin.js', 'assets/css/admin.css'
-    ]);
+    mix.version(['assets/js/admin.js', 'assets/css/admin.css']);
 
     // 复制CSS中用到的资源相对路径
-    mix.copy('public/packages/bootstrap2.3.2/bootstrap/img', 'public/build/assets/img');
     mix.copy('public/packages/font-awesome/fonts', 'public/build/assets/fonts');
     mix.copy('resources/assets/fonts', 'public/build/assets/fonts');
 });
