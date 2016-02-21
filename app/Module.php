@@ -9,7 +9,7 @@ class Module extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'description'];
+	protected $fillable = ['name', 'description', 'poster'];
 	
 	public function parent()
 	{

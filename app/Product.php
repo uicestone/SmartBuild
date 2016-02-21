@@ -19,8 +19,8 @@ class Product extends Model {
 		return $this->belongsTo('App\Module');
 	}
 	
-	public function parameters()
+	public function profiles()
 	{
-		return $this->belongsToMany('Parameters');
+		return $this->hasMany('App\Profile');
 	}
 }

@@ -66,7 +66,7 @@ class ProductController extends Controller {
 	 */
 	public function show($product)
 	{
-		$product->load('module');
+		$product->load('module', 'profiles', 'profiles.parameter');
 		return $product;
 	}
 
