@@ -22,6 +22,11 @@ class ParameterController extends Controller {
 			$query->where('name', 'like', '%' . Input::query('keyword') . '%');
 		}
 		
+		if(Input::query('module_id'))
+		{
+			$query->where('module_id', Input::query('module_id'));
+		}
+
 		$page = Input::query('page') ? Input::query('page') : 1;
 		
 		$per_page = Input::query('per_page') ? Input::query('per_page') : false;

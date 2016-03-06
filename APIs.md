@@ -59,7 +59,7 @@ http://api.1-step.cn
         "description":"",
         "brand":"",
         "price":0.00
-        "profiles": // 产品的参数特性
+        "profiles": // 产品的参数特性, 仅获取单个产品接口时有此字段
         [{
             "parameter":parameter,
             "value":""
@@ -73,7 +73,7 @@ http://api.1-step.cn
         "id":"",
         "name":"",
         "description":"",
-        "priceRange":[0.00, 10000.00], // 方案总估价(最小值, 最大值), 仅展示
+        "price_range":[0.00, 10000.00], // 方案总估价(最小值, 最大值), 仅展示
         "modules":[module]
     }
 
@@ -87,8 +87,8 @@ http://api.1-step.cn
 		"sections": // 带参数的模板
 		[{
 			"text":"{这是一段测试{{ param1 }}的{{ param2 }}",
-			params:{
-				"param1":{"type":"select", "options":["功能", "样式", "性能"]}
+			"params":{
+				"param1":{"type":"select", "options":["功能", "样式", "性能"]},
 				"param2":{"type":"text", "examples":[{"title":"示例1", "text":"示例内容"}]}
 			}
 		}]
@@ -103,13 +103,13 @@ http://api.1-step.cn
 		"solution":"",
 		"title":"",
 		"sections": // 带参数
-		[
+		[{
 			"text":"{这是一段测试{{ param1 }}的{{ param2 }}",
-			params:{
-				"param1":"功能"
+			"params":{
+				"param1":"功能",
 				"param2":"示例内容"
 			}
-		]
+		}]
 	}
 
 用户(user)

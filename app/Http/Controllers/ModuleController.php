@@ -35,7 +35,7 @@ class ModuleController extends Controller {
 		
 		$page = Input::query('page') ? Input::query('page') : 1;
 		
-		$per_page = Input::query('per_page') ? Input::query('per_page') : false;
+		$per_page = Input::query('per_page') ? Input::query('per_page') : 20;
 		
 		$list_total = $query->count();
 		
