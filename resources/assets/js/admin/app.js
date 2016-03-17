@@ -14,7 +14,7 @@ angular.module('smartbuild', [
 	$routeProvider
 		.when('/user', {
 			controller: 'UserController',
-			templateUrl: 'user/list.html',
+			templateUrl: 'assets/html/admin/user/list.html',
 			resolve: {
 				users: ['$route', 'User', function($route, User){
 					return User.query(angular.extend({per_page: 20}, $route.current.params)).$promise;
@@ -23,7 +23,7 @@ angular.module('smartbuild', [
 		})
 		.when('/user/:id', {
 			controller: 'UserEditController',
-			templateUrl: 'user/edit.html',
+			templateUrl: 'assets/html/admin/user/edit.html',
 			resolve: {
 				user: ['$route', 'User', function($route, User){
 					return User.get({id: $route.current.params.id}).$promise;
@@ -32,7 +32,7 @@ angular.module('smartbuild', [
 		})
 		.when('/module', {
 			controller: 'ModuleController',
-			templateUrl: 'module/list.html',
+			templateUrl: 'assets/html/admin/module/list.html',
 			resolve: {
 				modules: ['$route', 'Module', function($route, Module){
 					return Module.query(angular.extend({per_page: 20}, $route.current.params)).$promise;
@@ -41,7 +41,7 @@ angular.module('smartbuild', [
 		})
 		.when('/module/:id', {
 			controller: 'ModuleEditController',
-			templateUrl: 'module/edit.html',
+			templateUrl: 'assets/html/admin/module/edit.html',
 			resolve: {
 				module: ['$route', 'Module', function($route, Module){
 					if($route.current.params.id === 'new'){
@@ -53,7 +53,7 @@ angular.module('smartbuild', [
 		})
 		.when('/parameter', {
 			controller: 'ParameterController',
-			templateUrl: 'parameter/list.html',
+			templateUrl: 'assets/html/admin/parameter/list.html',
 			resolve: {
 				parameters: ['$route', 'Parameter', function($route, Parameter){
 					return Parameter.query(angular.extend({per_page: 20}, $route.current.params)).$promise;
@@ -62,7 +62,7 @@ angular.module('smartbuild', [
 		})
 		.when('/parameter/:id', {
 			controller: 'ParameterEditController',
-			templateUrl: 'parameter/edit.html',
+			templateUrl: 'assets/html/admin/parameter/edit.html',
 			resolve: {
 				parameter: ['$route', 'Parameter', function($route, Parameter){
 					if($route.current.params.id === 'new'){
@@ -74,7 +74,7 @@ angular.module('smartbuild', [
 		})
 		.when('/product', {
 			controller: 'ProductController',
-			templateUrl: 'product/list.html',
+			templateUrl: 'assets/html/admin/product/list.html',
 			resolve: {
 				products: ['$route', 'Product', function($route, Product){
 					return Product.query(angular.extend({per_page: 20}, $route.current.params)).$promise;
@@ -83,7 +83,7 @@ angular.module('smartbuild', [
 		})
 		.when('/product/:id', {
 			controller: 'ProductEditController',
-			templateUrl: 'product/edit.html',
+			templateUrl: 'assets/html/admin/product/edit.html',
 			resolve: {
 				product: ['$route', 'Product', function($route, Product){
 					if($route.current.params.id === 'new'){

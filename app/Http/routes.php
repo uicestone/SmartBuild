@@ -13,6 +13,17 @@
 
 use Illuminate\Routing\Router;
 
+// 后台管理界面
+$admin_routes = function(Router $router)
+{
+	$router->get('login', 'WelcomeController@adminSignIn');
+	$router->post('login', 'UserController@authenticate');
+	$router->get('{item?}/{id?}', 'WelcomeController@admin');
+};
+
+Route::group(['prefix'=>'admin'], $admin_routes);
+Route::group(['domain'=>parse_url(env('ADMIN_URL'), PHP_URL_HOST)], $admin_routes);
+
 $api_routes = function(Router $router)
 {
 	$router->resource('module', 'ModuleController');
@@ -30,21 +41,6 @@ $api_routes = function(Router $router)
 // 支持跨域异步调用的接口
 Route::group(['middleware' => 'cors', 'prefix'=>'api/v1'], $api_routes);
 Route::group(['middleware' => 'cors', 'domain'=>parse_url(env('API_BASE'), PHP_URL_HOST)], $api_routes);
-
-// 后台管理界面
-$admin_routes = function(Router $router)
-{
-	$router->get('login', 'WelcomeController@adminSignIn');
-	$router->post('login', 'UserController@authenticate');
-	$router->get('{item?}/{id?}', 'WelcomeController@admin');
-};
-
-Route::group(['prefix'=>'admin'], $admin_routes);
-
-if(env('URL_ADMIN'))
-{
-	Route::group(['domain'=>parse_url(env('URL_ADMIN'), PHP_URL_HOST)], $admin_routes);
-}
 
 Route::get('/', 'WelcomeController@index');
 

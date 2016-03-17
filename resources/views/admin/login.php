@@ -8,13 +8,12 @@
 
 		<title>登录 - 一步智能楼宇方案构建系统 - 管理后台</title>
 
-		<base href="<?=url()?>">
+		<base href="<?=env('ADMIN_URL')?>/">
 		<link href="<?=url(elixir('assets/css/admin.css'))?>" rel="stylesheet">
 		<script type="text/javascript" src="<?=url(elixir('assets/js/admin.js'))?>"></script>
 		<script type="text/javascript">
-			var url = '<?=env('URL')?>';
-			var apiBase = '<?=env('URL_API', env('URL') . '/api/v1')?>/';
-			var adminUrl = '<?=env('URL_ADMIN', env('URL') . '/admin')?>';
+			var apiBase = '<?=env('API_PREFIX')?>';
+			var adminUrl = '<?=env('ADMIN_URL')?>';
 		</script>
 	</head>
 

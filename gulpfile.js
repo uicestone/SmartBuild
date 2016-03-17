@@ -37,4 +37,5 @@ elixir(function(mix) {
     // 复制CSS中用到的资源相对路径
     mix.copy('public/packages/font-awesome/fonts', 'public/build/assets/fonts');
     mix.copy('resources/assets/fonts', 'public/build/assets/fonts');
+    mix.copy('resources/assets/html', 'public/assets/html');
 });
