@@ -124,6 +124,13 @@ http://api.1-step.cn
 接口
 ===============================
 
+新增模块
+-------------------------------
+
+    POST /module
+    body:module
+    response:module
+
 获得模块列表
 -------------------------------
 
@@ -140,12 +147,31 @@ http://api.1-step.cn
     GET /module/:id
     response:module
 
+修改模块详情
+-------------------------------
+
+    PUT /module/:id
+    body:module
+    response:module
+
+删除模块详情
+-------------------------------
+
+    DELETE /module/:id
+
+新增参数
+-------------------------------
+
+    POST /parameter
+    body:parameter
+    response:parameter
+
 获得参数列表
 -------------------------------
 
     GET /parameter
     query:{
-        "module_id":""
+        "parameter_id":""
     }
 
 获得参数详情
@@ -154,12 +180,31 @@ http://api.1-step.cn
     GET /parameter/:id
     response:parameter
 
+修改参数详情
+-------------------------------
+
+    PUT /parameter/:id
+    body:parameter
+    response:parameter
+
+删除参数详情
+-------------------------------
+
+    DELETE /parameter/:id
+
+新增产品
+-------------------------------
+
+    POST /product
+    body:product
+    response:product
+
 获得产品列表
 -------------------------------
 
     GET /product
     query:{
-        "module_id":""
+        "product_id":""
     }
     response:[product]
 
@@ -168,6 +213,25 @@ http://api.1-step.cn
 
     GET /product/:id
     response:product
+
+修改产品详情
+-------------------------------
+
+    PUT /product/:id
+    body:product
+    response:product
+
+删除产品详情
+-------------------------------
+
+    DELETE /product/:id
+
+新增方案
+-------------------------------
+
+    POST /solution
+    body:solution
+    response:solution
 
 获得方案列表
 -------------------------------
@@ -184,6 +248,25 @@ http://api.1-step.cn
     GET /solution/:id
     response:solution
 
+修改方案详情
+-------------------------------
+
+    PUT /solution/:id
+    body:solution
+    response:solution
+
+删除方案详情
+-------------------------------
+
+    DELETE /solution/:id
+
+新增模版
+-------------------------------
+
+    POST /template
+    body:template
+    response:template
+
 获得模板列表
 -------------------------------
 
@@ -199,6 +282,25 @@ http://api.1-step.cn
     GET /template/:id
     response:template
 
+修改模版详情
+-------------------------------
+
+    PUT /template/:id
+    body:template
+    response:template
+
+删除模版详情
+-------------------------------
+
+    DELETE /template/:id
+
+新增文书
+-------------------------------
+
+    POST /paper
+    body:paper
+    response:paper
+
 获得文书列表
 -------------------------------
 
@@ -213,6 +315,18 @@ http://api.1-step.cn
 
     GET /paper/:id
     response:paper
+
+修改模版详情
+-------------------------------
+
+    PUT /template/:id
+    body:template
+    response:template
+
+删除模版详情
+-------------------------------
+
+    DELETE /template/:id
 
 用户鉴权
 -------------------------------
