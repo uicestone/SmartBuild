@@ -9,7 +9,7 @@ class Solution extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['description'];
+	protected $fillable = ['name', 'description', 'modules'];
 	protected $casts = ['modules' => 'collection', 'price_least'=>'float', 'price_most'=>'float'];
 
 	public function getPriceRangeAttribute()
